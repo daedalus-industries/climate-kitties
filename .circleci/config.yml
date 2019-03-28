@@ -1,0 +1,26 @@
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:9.11.1-stretch
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "1f:14:7f:60:8f:b7:ed:ad:3f:0d:55:3a:70:7e:84:6a"
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+      - run: npm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run: npm run lint
+      - run: npm run test
+#      - run:   git config --global user.email "noreply@lestari.com" && git config --global user.name "Circle CI"
+#      - run: ./scripts/release-snapshot.sh
