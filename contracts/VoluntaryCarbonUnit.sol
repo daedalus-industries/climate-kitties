@@ -42,7 +42,10 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
     function mintVcu(address to, VcuDetail memory detail) public returns (bool) {
         vcuDetails[detail.id] = detail;
 
-        require(0 == detail.retirementDate || detail.issuanceDate <= detail.retirementDate, 'Retirement must be after issuance.');
+        require(
+            0 == detail.retirementDate || detail.issuanceDate <= detail.retirementDate,
+            "Retirement must be after issuance."
+        );
         require(detail.vintageStart <= detail.vintageStart, "Vintage must end after start.");
 
         _mint(to, detail.id);
