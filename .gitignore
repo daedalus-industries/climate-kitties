@@ -8,3 +8,4 @@ coverage.json
 package-lock.json
 .gradle
 .DS_Store
+.vscode/launch.json
