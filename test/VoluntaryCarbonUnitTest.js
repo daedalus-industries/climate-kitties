@@ -15,7 +15,7 @@ contract('VoluntaryCarbonUnit', (accounts) => {
 
   it('makes an NFT and moves it', async () => {
     const details = {
-      id: 1,
+      id: 7,
       name: 'Rick Sanchez',
 
       issuanceDate: Date.now,
@@ -35,7 +35,10 @@ contract('VoluntaryCarbonUnit', (accounts) => {
     };
 
     await vcu.mintVcu(accounts[0], details);
-    await vcu.safeTransferFrom(accounts[0], accounts[1], 1);
-    assert.equal(accounts[1], await vcu.ownerOf.call(1));
+    await vcu.safeTransferFrom(accounts[0], accounts[1], 7);
+    assert.equal(accounts[1], await vcu.ownerOf.call(7));
+
+    const returnedDetails = await vcu.vcuDetails.call(7);
+    assert.equal('Rick Sanchez', returnedDetails.name);
   });
 });
