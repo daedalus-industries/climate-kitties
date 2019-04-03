@@ -1,11 +1,11 @@
 *.swp
 *.swo
-node_modules/
-build/
-.DS_Store/
+node_modules
+build
 /coverage
 coverage.json
 package-lock.json
 .gradle
 .DS_Store
 .vscode/launch.json
+app/src/contracts
