@@ -10,7 +10,7 @@ const options = {
   },
   contracts: [VoluntaryCarbonUnit],
   events: {
-    VoluntaryCarbonUnit: ["VoluntaryCarbonUnit"],
+    VoluntaryCarbonUnit: ["Transfer", "Approval", "ApprovalForAll"]
   },
   polls: {
     accounts: 1500,

@@ -5,14 +5,14 @@ import {
   ContractForm,
 } from "drizzle-react-components";
 
-import logo from "./logo.png";
+import logo from "./kitten.jpeg";
 
 export default ({ accounts }) => (
   <div className="App">
     <div>
       <img src={logo} alt="drizzle-logo" />
-      <h1>Drizzle Examples</h1>
-      <p>Examples of how to get started with Drizzle in various situations.</p>
+      <h1>Climate Kitties Alpha Dashboard</h1>
+      <p>Just so there's an interface. In the absence of Verra's input there's little point going beyond this <span role="img" aria-label="shrug">🤷‍♀️</span></p>
     </div>
 
     <div className="section">
@@ -21,67 +21,49 @@ export default ({ accounts }) => (
     </div>
 
     <div className="section">
-      <h2>SimpleStorage</h2>
-      <p>
-        This shows a simple ContractData component with no arguments, along with
-        a form to set its value.
-      </p>
-      <p>
-        <strong>Stored Value: </strong>
-        <ContractData contract="SimpleStorage" method="storedData" />
-      </p>
-      <ContractForm contract="SimpleStorage" method="set" />
-    </div>
-
-    <div className="section">
-      <h2>TutorialToken</h2>
+      <h2>Voluntary Carbon Credit</h2>
       <p>
         Here we have a form with custom, friendly labels. Also note the token
         symbol will not display a loading indicator. We've suppressed it with
         the <code>hideIndicator</code> prop because we know this variable is
         constant.
       </p>
+      <h3><strong>VCU NFT Details</strong></h3>
       <p>
-        <strong>Total Supply: </strong>
-        <ContractData
-          contract="TutorialToken"
-          method="totalSupply"
-          methodArgs={[{ from: accounts[0] }]}
-        />{" "}
-        <ContractData contract="TutorialToken" method="symbol" hideIndicator />
+        <ContractData contract="VoluntaryCarbonUnit" method="name" hideIndicator />&nbsp;
+        (<ContractData contract="VoluntaryCarbonUnit" method="symbol" hideIndicator />)
       </p>
       <p>
         <strong>My Balance: </strong>
         <ContractData
-          contract="TutorialToken"
+          contract="VoluntaryCarbonUnit"
           method="balanceOf"
           methodArgs={[accounts[0]]}
         />
       </p>
-      <h3>Send Tokens</h3>
+      <h3>Mint a Climate Kitten  W00t!</h3>
       <ContractForm
-        contract="TutorialToken"
-        method="transfer"
-        labels={["To Address", "Amount to Send"]}
+        contract="VoluntaryCarbonUnit"
+        method="mintVcu"
+        labels={["To Address", "details"]}
+      />
+      <h3>Send Climate Kitten</h3>
+      <ContractForm
+        contract="VoluntaryCarbonUnit"
+        method="safeTransferFrom"
+        labels={["From Address", "To Address", "Kittie Id"]}
       />
     </div>
     <div className="section">
-      <h2>ComplexStorage</h2>
+      <h2>Climate Kittie Number 1</h2>
       <p>
-        Finally this contract shows data types with additional considerations.
+        Let's just pull the first Climate Kittie to show we can.
         Note in the code the strings below are converted from bytes to UTF-8
         strings and the device data struct is iterated as a list.
       </p>
       <p>
-        <strong>String 1: </strong>
-        <ContractData contract="ComplexStorage" method="string1" toUtf8 />
+        <ContractData contract="VoluntaryCarbonUnit" method="vcuDetails" methodArgs={[1]} />
       </p>
-      <p>
-        <strong>String 2: </strong>
-        <ContractData contract="ComplexStorage" method="string2" toUtf8 />
-      </p>
-      <strong>Single Device Data: </strong>
-      <ContractData contract="ComplexStorage" method="singleDD" />
     </div>
   </div>
 );
