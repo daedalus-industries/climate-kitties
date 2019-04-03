@@ -20,6 +20,7 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+      - run: npx truffle compile # app.js imports contract JSON
       - run: npm run lint
       - run: npm run test
 #      - run:   git config --global user.email "noreply@lestari.com" && git config --global user.name "Circle CI"
