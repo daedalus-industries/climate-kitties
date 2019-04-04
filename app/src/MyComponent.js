@@ -55,7 +55,6 @@ export default ({ accounts }) => (
           "methodology",
           "totalVintageQuantity",
           "quantityIssued",
-          "dditionalCertifications"
         ]}
       />
       <h3>Send Climate Kitten</h3>
@@ -73,7 +72,7 @@ export default ({ accounts }) => (
         strings and the device data struct is iterated as a list.
       </p>
       <p>
-        <ContractData contract="VoluntaryCarbonUnit" method="vcuDetails" methodArgs={[1]} />
+        <ContractData contract="VoluntaryCarbonUnit" method="vcuDetails" methodArgs={[2]} />
       </p>
     </div>
   </div>

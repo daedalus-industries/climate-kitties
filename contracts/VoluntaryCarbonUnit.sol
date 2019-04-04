@@ -25,7 +25,6 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
         string methodology; // Are these actually numbers?
         uint64 totalVintageQuantity; // What is the actual range here?
         uint64 quantityIssued;
-        string[] additionalCertifications; // More structure???
     }
 
     mapping(uint32 => VcuDetail) public vcuDetails;
@@ -52,8 +51,7 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
         uint16 sectoryScope,
         string memory methodology,
         uint64 totalVintageQuantity,
-        uint64 quantityIssued,
-        string[] memory additionalCertifications
+        uint64 quantityIssued
 
     ) public onlyMinter returns (bool) {
         VcuDetail memory detail;
@@ -73,7 +71,6 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
         detail.methodology = methodology;
         detail.totalVintageQuantity = totalVintageQuantity;
         detail.quantityIssued = quantityIssued;
-        detail.additionalCertifications = additionalCertifications;
 
         return mintVcuStruct(to, detail);
     }
@@ -85,7 +82,7 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
             0 == detail.retirementDate || detail.issuanceDate <= detail.retirementDate,
             "Retirement must be after issuance."
         );
-        require(detail.vintageStart <= detail.vintageStart, "Vintage must end after start.");
+        require(detail.vintageStart <= detail.vintageEnd, "Vintage must end after start.");
 
         _mint(to, detail.id);
         return true;

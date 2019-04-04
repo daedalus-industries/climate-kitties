@@ -19,8 +19,6 @@ module.exports = async (deployer, network, accounts) => {
     sectoryScope: 14,
     totalVintageQuantity: 1000,
     quantityIssued: 120,
-
-    additionalCertifications: [],
   };
 
   await vcu.mintVcuStruct(accounts[0], details);
