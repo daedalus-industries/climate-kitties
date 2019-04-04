@@ -2,8 +2,6 @@
 /* eslint-disable no-console */
 
 const express = require('express');
-const path = require('path');
-const exphbs = require('express-handlebars');
 
 const Web3 = require('web3');
 const contract = require('truffle-contract');
@@ -11,7 +9,8 @@ const contract = require('truffle-contract');
 // returns a window with a document and an svg root node
 const window = require('svgdom');
 const SVG = require('svg.js')(window);
-const document = window.document;
+
+const { document } = window;
 
 const VoluntaryCarbonUnit = require('./build/contracts/VoluntaryCarbonUnit.json');
 
@@ -23,25 +22,6 @@ const NETWORK_ID = process.env.NETWORK_ID || '1554220853564';
 
 const walletProvider = new Web3.providers.HttpProvider(RPC_URL);
 const web3 = new Web3(walletProvider);
-
-app.engine('.hbs', exphbs({
-  extname: '.hbs',
-  layoutsDir: path.join(__dirname, 'views/layouts'),
-}));
-
-app.set('view engine', '.hbs');
-app.set('views', path.join(__dirname, 'views'));
-
-app.get('/:id', async (request, response) => {
-  const vcu = contract(VoluntaryCarbonUnit);
-  vcu.setProvider(web3.currentProvider);
-  vcu.setNetwork(NETWORK_ID);
-  const instance = await vcu.deployed();
-  const details = await instance.vcuDetails.call(request.params.id);
-  response.render('home', {
-    object: details,
-  });
-});
 
 app.get('/metadata/:id', async (request, response) => {
   const vcu = contract(VoluntaryCarbonUnit);
@@ -65,10 +45,10 @@ app.get('/metadata/:id', async (request, response) => {
   });
 
   const erc721Metadata = {
-    description: details.methodology,
-    external_url: 'https://openseacreatures.io/3',
-    image: 'https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png',
     name: details.name,
+    description: details.methodology,
+    image: 'https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png',
+    external_url: 'https://openseacreatures.io/3',
     attributes,
   };
 
