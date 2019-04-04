@@ -30,16 +30,55 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
 
     mapping(uint32 => VcuDetail) public vcuDetails;
 
+    uint32 private lastId = 1;
+
     // solhint-disable-next-line no-empty-blocks
     constructor() public ERC721Full("Voluntary Carbon Unit Certificates", "VCU") {
     }
 
     // solhint-disable-next-line no-unused-vars
-    function mint(address to, uint256 tokenId) public returns (bool) {
+    function mint(address to, uint256 tokenId) public onlyMinter returns (bool) {
         revert("Not implemented. Use mint(to, VcuDetail) instead.");
     }
 
-    function mintVcu(address to, VcuDetail memory detail) public returns (bool) {
+    function mintVcu(
+        address to,
+
+        uint256 vintageStart,
+        uint256 vintageEnd,
+
+        string memory name,
+        uint16 countryCodeNumeric,
+        uint16 sectoryScope,
+        string memory methodology,
+        uint64 totalVintageQuantity,
+        uint64 quantityIssued,
+        string[] memory additionalCertifications
+
+    ) public onlyMinter returns (bool) {
+        VcuDetail memory detail;
+
+        detail.id = ++lastId;
+
+        // solhint-disable-next-line not-rely-on-time
+        detail.issuanceDate = now;
+        detail.retirementDate = 0;
+
+        detail.vintageStart = vintageStart;
+        detail.vintageEnd = vintageEnd;
+
+        detail.name = name;
+        detail.countryCodeNumeric = countryCodeNumeric;
+        detail.sectoryScope = sectoryScope;
+        detail.methodology = methodology;
+        detail.totalVintageQuantity = totalVintageQuantity;
+        detail.quantityIssued = quantityIssued;
+        detail.additionalCertifications = additionalCertifications;
+
+        return mintVcuStruct(to, detail);
+    }
+
+    function mintVcuStruct(address to, VcuDetail memory detail) public onlyMinter returns (bool) {
         vcuDetails[detail.id] = detail;
 
         require(

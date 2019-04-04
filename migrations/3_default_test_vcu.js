@@ -23,5 +23,5 @@ module.exports = async (deployer, network, accounts) => {
     additionalCertifications: [],
   };
 
-  await vcu.mintVcu(accounts[0], details);
+  await vcu.mintVcuStruct(accounts[0], details);
 };

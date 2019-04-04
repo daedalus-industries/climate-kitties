@@ -34,7 +34,7 @@ contract('VoluntaryCarbonUnit', (accounts) => {
       additionalCertifications: [],
     };
 
-    await vcu.mintVcu(accounts[0], details);
+    await vcu.mintVcuStruct(accounts[0], details);
     await vcu.safeTransferFrom(accounts[0], accounts[1], 7);
     assert.equal(accounts[1], await vcu.ownerOf.call(7));
 

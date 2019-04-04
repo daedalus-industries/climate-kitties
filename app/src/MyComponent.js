@@ -45,7 +45,18 @@ export default ({ accounts }) => (
       <ContractForm
         contract="VoluntaryCarbonUnit"
         method="mintVcu"
-        labels={["To Address", "details"]}
+        labels={[
+          "to",
+          "vintageStart",
+          "vintageEnd",
+          "name",
+          "countryCodeNumeric",
+          "sectoryScope",
+          "methodology",
+          "totalVintageQuantity",
+          "quantityIssued",
+          "dditionalCertifications"
+        ]}
       />
       <h3>Send Climate Kitten</h3>
       <ContractForm
