@@ -29,7 +29,7 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
 
     mapping(uint32 => VcuDetail) public vcuDetails;
 
-    uint32 private lastId = 1;
+    uint32 public lastId = 0;
 
     // solhint-disable-next-line no-empty-blocks
     constructor() public ERC721Full("Voluntary Carbon Unit Certificates", "VCU") {
