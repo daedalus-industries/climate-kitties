@@ -19,6 +19,7 @@
     "trufflepig": "^1.1.2"
   },
   "scripts": {
+    "start": "node app.js",
     "test": "npx truffle test",
     "lint": "npm run lint:js && npm run lint:sol",
     "lint:fix": "npm run lint:js:fix",
