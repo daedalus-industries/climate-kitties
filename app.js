@@ -15,7 +15,7 @@ const { document } = window;
 const VoluntaryCarbonUnit = require('./build/contracts/VoluntaryCarbonUnit.json');
 
 const app = express();
-const port = 3000;
+const port = 8080;
 
 const RPC_URL = process.env.RPC_URL || 'http://127.0.0.1:8545';
 const NETWORK_ID = process.env.NETWORK_ID || '1554220853564';
@@ -47,8 +47,8 @@ app.get('/metadata/:id', async (request, response) => {
   const erc721Metadata = {
     name: details.name,
     description: details.methodology,
-    image: 'https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png',
-    external_url: 'https://openseacreatures.io/3',
+    image: 'https://dsccm-236701.appspot.com/static/verified_carbon.svg',
+    external_url: 'http://lestaricapital.com',
     attributes,
   };
 
@@ -67,6 +67,8 @@ app.get('/images/:id', (request, response) => {
   response.setHeader('content-type', 'image/svg+xml');
   response.status(200).send(canvas.svg());
 });
+
+app.use('/static', express.static('public'));
 
 app.get('/favicon.ico', (request, response) => {
   response.status(404).send("Sorry can't find that!");
