@@ -26,13 +26,23 @@ module.exports = {
       gasPrice: 0x01,
       network_id: '*', // Match any network id
     },
+    rinkeby: {
+      provider: () => new HDWalletProvider(mnemonic, 'https://rinkeby.infura.io/v3/666ad5e212fb4d08bb591999bdac105b'),
+      network_id: 4,
+      gas: 4700000,
+    },
+    kovan: {
+      provider: () => new HDWalletProvider(mnemonic, 'https://kovan.infura.io/v3/666ad5e212fb4d08bb591999bdac105b'),
+      network_id: 42,
+      gas: 4700000,
+    },
     sokol: {
       provider() {
         return new HDWalletProvider(mnemonic, 'https://sokol.poa.network/');
       },
       network_id: 77,
     },
-    core: {
+    poacore: {
       provider() {
         return new HDWalletProvider(mnemonic, 'https://core.poa.network/');
       },
