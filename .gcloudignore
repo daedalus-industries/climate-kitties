@@ -1,0 +1,10 @@
+*.swp
+*.swo
+node_modules
+/coverage
+coverage.json
+package-lock.json
+.gradle
+.DS_Store
+.vscode/launch.json
+app
