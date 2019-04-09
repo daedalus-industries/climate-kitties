@@ -1,10 +1,12 @@
 pragma solidity ^0.5.7;
-pragma experimental ABIEncoderV2; // Before launch, replace if V2 not production 
 
 import "openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
 import "openzeppelin-solidity/contracts/token/ERC721/ERC721Mintable.sol";
- 
+import "./third-party/strings.sol";
+
 contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
+
+    using strings for *;
 
     // Long-term, most if not all, of this should be in IPFS JSON
     // but staying on-chain makes things easy for now.
@@ -35,6 +37,13 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
     constructor() public ERC721Full("Voluntary Carbon Unit Certificates", "VCU") {
     }
 
+    function tokenURI(uint256 tokenId) external view returns (string memory) {
+        string memory tokenIdString = tokenId.uint2str();
+        return
+            "https://dsccm-236701.appspot.com/metadata/".toSlice()
+            .concat(tokenIdString.toSlice());
+    }
+
     // solhint-disable-next-line no-unused-vars
     function mint(address to, uint256 tokenId) public onlyMinter returns (bool) {
         revert("Not implemented. Use mint(to, VcuDetail) instead.");
@@ -54,37 +63,26 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
         uint64 quantityIssued
 
     ) public onlyMinter returns (bool) {
-        VcuDetail memory detail;
 
-        detail.id = ++lastId;
+        require(vintageStart <= vintageEnd, "Vintage must end after start.");
+
+        uint32 id = ++lastId;
 
         // solhint-disable-next-line not-rely-on-time
-        detail.issuanceDate = now;
-        detail.retirementDate = 0;
+        vcuDetails[id].issuanceDate = now;
+        vcuDetails[id].retirementDate = 0;
 
-        detail.vintageStart = vintageStart;
-        detail.vintageEnd = vintageEnd;
+        vcuDetails[id].vintageStart = vintageStart;
+        vcuDetails[id].vintageEnd = vintageEnd;
 
-        detail.name = name;
-        detail.countryCodeNumeric = countryCodeNumeric;
-        detail.sectoryScope = sectoryScope;
-        detail.methodology = methodology;
-        detail.totalVintageQuantity = totalVintageQuantity;
-        detail.quantityIssued = quantityIssued;
+        vcuDetails[id].name = name;
+        vcuDetails[id].countryCodeNumeric = countryCodeNumeric;
+        vcuDetails[id].sectoryScope = sectoryScope;
+        vcuDetails[id].methodology = methodology;
+        vcuDetails[id].totalVintageQuantity = totalVintageQuantity;
+        vcuDetails[id].quantityIssued = quantityIssued;
 
-        return mintVcuStruct(to, detail);
-    }
-
-    function mintVcuStruct(address to, VcuDetail memory detail) public onlyMinter returns (bool) {
-        vcuDetails[detail.id] = detail;
-
-        require(
-            0 == detail.retirementDate || detail.issuanceDate <= detail.retirementDate,
-            "Retirement must be after issuance."
-        );
-        require(detail.vintageStart <= detail.vintageEnd, "Vintage must end after start.");
-
-        _mint(to, detail.id);
+        _mint(to, id);
         return true;
     }
 }

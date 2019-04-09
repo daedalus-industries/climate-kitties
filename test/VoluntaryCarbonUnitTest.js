@@ -13,30 +13,23 @@ contract('VoluntaryCarbonUnit', (accounts) => {
     await shouldFail(vcu.mint(accounts[0], 1));
   });
 
-  it('makes an NFT and moves it', async () => {
-    const details = {
-      id: 7,
-      name: 'Rick Sanchez',
+  it('makes a VCU with the right meta details', async () => {
+    await vcu.mintVcu(
+      accounts[0],
+      Date.now(), // vintageStart
+      Date.now() + (90 * 24 * 60 * 60 * 1000), // vintageEnd
+      'Rick Sanchez',
+      2, // countryCodeNumeric
+      14, // sectoryScope
+      'A method', // methodology
+      1000, // totalVintageQuantity
+      20, // quantityIssued
+    );
 
-      issuanceDate: Date.now,
-      retirementDate: 0,
+    await vcu.safeTransferFrom(accounts[0], accounts[1], 2);
+    assert.equal(accounts[1], await vcu.ownerOf.call(2));
 
-      vintageStart: Date.now(),
-      vintageEnd: Date.now() + (90 * 24 * 60 * 60 * 1000),
-
-      methodology: 'A method',
-
-      countryCodeNumeric: 2,
-      sectoryScope: 14,
-      totalVintageQuantity: 1000,
-      quantityIssued: 120,
-    };
-
-    await vcu.mintVcuStruct(accounts[0], details);
-    await vcu.safeTransferFrom(accounts[0], accounts[1], 7);
-    assert.equal(accounts[1], await vcu.ownerOf.call(7));
-
-    const returnedDetails = await vcu.vcuDetails.call(7);
+    const returnedDetails = await vcu.vcuDetails.call(2);
     assert.equal('Rick Sanchez', returnedDetails.name);
   });
 });
