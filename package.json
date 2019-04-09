@@ -2,21 +2,21 @@
   "name": "climate-kitties",
   "version": "0.0.1",
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.6.1",
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.11.0",
-    "pre-commit": "^1.2.2",
-    "should": "^13.2.3",
-    "solidity-coverage": "^0.5.4",
-    "solhint": "^1.5.0",
-    "chai": "^4.2.0",
+    "babel-core": "6.26.3",
+    "babel-preset-env": "1.6.1",
+    "eslint": "4.19.1",
+    "eslint-config-airbnb-base": "12.1.0",
+    "eslint-plugin-import": "2.11.0",
+    "pre-commit": "1.2.2",
+    "should": "13.2.3",
+    "solidity-coverage": "0.5.4",
+    "solhint": "1.5.0",
+    "chai": "4.2.0",
     "chai-bn": "0.1.0-beta.0",
     "openzeppelin-solidity": "2.2.0",
     "openzeppelin-test-helpers": "0.1.0-alpha.0",
-    "truffle-flattener": "^1.2.10",
-    "trufflepig": "^1.1.2"
+    "truffle-flattener": "1.2.10",
+    "trufflepig": "1.1.2"
   },
   "scripts": {
     "start": "node app.js",
@@ -36,16 +36,20 @@
     "slither": "docker pull trailofbits/slither && npx truffle compile && npm run flatten && docker run -v $(pwd):/tmp/truffle:ro trailofbits/slither slither /tmp/truffle/build/flat.sol"
   },
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
-    "babel-register": "^6.26.0",
-    "express": "^4.16.4",
-    "ganache-cli": "^6.2.5",
-    "global-request-logger": "^0.1.1",
-    "svg.js": "^2.7.1",
+    "babel-polyfill": "6.26.0",
+    "babel-register": "6.26.0",
+    "express": "4.16.4",
+    "ganache-cli": "6.2.5",
+    "global-request-logger": "0.1.1",
+    "svg.js": "2.7.1",
     "svgdom": "0.0.18",
-    "truffle": "^5.0.10",
-    "truffle-contract": "^4.0.11",
+    "truffle": "5.0.9",
+    "truffle-contract": "4.0.11",
     "truffle-hdwallet-provider": "1.0.2",
-    "web3": "^1.0.0-beta.37"
+    "web3": "1.0.0-beta.37"
+  },
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=6.0.0"
   }
 }
