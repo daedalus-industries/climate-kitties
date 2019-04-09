@@ -6,6 +6,22 @@ const express = require('express');
 const Web3 = require('web3');
 const contract = require('truffle-contract');
 
+const globalLog = require('global-request-logger');
+
+globalLog.initialize();
+
+globalLog.on('success', (request, response) => {
+  console.log('SUCCESS');
+  console.log('Request', request);
+  console.log('Response', response);
+});
+
+globalLog.on('error', (request, response) => {
+  console.log('ERROR');
+  console.log('Request', request);
+  console.log('Response', response);
+});
+
 // returns a window with a document and an svg root node
 const window = require('svgdom');
 const SVG = require('svg.js')(window);
@@ -17,11 +33,15 @@ const VoluntaryCarbonUnit = require('./build/contracts/VoluntaryCarbonUnit.json'
 const app = express();
 const port = 8080;
 
-const RPC_URL = process.env.RPC_URL || 'http://127.0.0.1:8545';
-const NETWORK_ID = process.env.NETWORK_ID || '1554220853564';
+// Ex. 'http://127.0.0.1:8545' '1554785162215';
+const { RPC_URL, NETWORK_ID } = process.env;
 
 const walletProvider = new Web3.providers.HttpProvider(RPC_URL);
 const web3 = new Web3(walletProvider);
+
+app.get('/', (request, response) => {
+  response.json(walletProvider);
+});
 
 app.get('/metadata/:id', async (request, response) => {
   const vcu = contract(VoluntaryCarbonUnit);
