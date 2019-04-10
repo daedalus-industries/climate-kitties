@@ -1,0 +1,60 @@
+= Climate Kitties
+
+== Prerequisites
+
+The code dependencies are fully described in `package.json`. Only `npm install` is needed.
+
+For deployment only GCloud has been configured [the `app.yaml` files], and this will require the https://cloud.google.com/sdk/[Cloud CLI] for deployment from your machine.
+
+The use of the https://github.com/creationix/nvm[Node Version Manager] is recommened.
+
+== Contracts and components
+
+=== Web
+
+There are two website components: the minting dashboard (found at `app/` ) and the metadata server (which is simply `app.js`).
+
+Both are deployable by following the GCloud App Engine https://cloud.google.com/appengine/docs/standard/nodejs/quickstart[guide] for nodejs.
+
+=== Dashboard
+
+The minting dashboard has its own `package.json`, and its own copies of the contracts JSON `src/contracts`. The dashboard contracts JSON is copied automatically when using the root tasks `npm run migrate:local` or `npm run migrate:local`. It is based on the https://truffleframework.com/tutorials/getting-started-with-drizzle-and-react[standard React+Drizzle template].
+
+=== Metadata Server
+
+The metadata server shares its dependencies and contracts JSON with the root Truffle project.
+
+=== Contracts
+
+Currently, only the Voluntary Carbon Unit NFT token is implemented. It is contained in the source file `VoluntaryCarbonUnit.sol`.
+
+Due to the extra metadata required, the standard `mint(to, id)` function is *not* supported. Use `mintVcu(...)` instead.
+
+Minting a new VCU requires the sending address to have minter permissions granted by calling `token.addMinter(address)` from the owning address.
+
+
+== Quick start
+
+=== Running locally
+
+. Install root dependencies `npm install`
+. Start a local chain `npx ganache-cli`
+. Migrate to the local chain `npm run migrate:local`
+. Start the metadata server `npm run start`
+. Switch into the dashboard directory `cd app`
+. Install dashboard dependencies `npm install`
+. Start the dashboard `npm run start`
+
+Note that there will be domain mismatch between the metadata server, and that given by `tokenURI(...)` called on the local chain instance of the Voluntary Carbon Unit NFT.
+
+
+=== Unit Testing
+
+`npm run test`
+
+Only the root Truffle project is currently unit tested.
+
+
+== Contribution Guidelines
+
+Something something Apache Griffin to write stuff :)
