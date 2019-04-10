@@ -47,6 +47,8 @@ Minting a new VCU requires the sending address to have minter permissions grante
 
 Note that there will be domain mismatch between the metadata server, and that given by `tokenURI(...)` called on the local chain instance of the Voluntary Carbon Unit NFT.
 
+Also only my MetaMask wallet address is added as a minter in `migrations/4_nifty_minter.js`. Fire up `npx truffle console --network local` to add your own.
+
 
 === Unit Testing
 
