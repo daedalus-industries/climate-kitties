@@ -1,0 +1,7 @@
+*.swp
+*.swo
+node_modules
+package-lock.json
+.gradle
+.DS_Store
+.vscode/launch.json
