@@ -43,7 +43,7 @@
     "global-request-logger": "0.1.1",
     "svg.js": "2.7.1",
     "svgdom": "0.0.18",
-    "truffle": "5.0.9",
+    "truffle": "5.0.12",
     "truffle-contract": "4.0.11",
     "truffle-hdwallet-provider": "1.0.2",
     "web3": "1.0.0-beta.37"
