@@ -1,0 +1,1 @@
+This is where the auto-generated contracts JSON from the migrate tasks goes.

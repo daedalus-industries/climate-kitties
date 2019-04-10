@@ -8,4 +8,4 @@ package-lock.json
 .gradle
 .DS_Store
 .vscode/launch.json
-app/src/contracts
+app/src/contracts/*.json
