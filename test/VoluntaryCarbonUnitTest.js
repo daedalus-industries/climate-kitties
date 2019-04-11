@@ -6,7 +6,19 @@ contract('VoluntaryCarbonUnit', (accounts) => {
   let vcu;
 
   beforeEach(async () => {
-    vcu = await VoluntaryCarbonUnit.deployed();
+    vcu = await VoluntaryCarbonUnit.new();
+    await vcu.mintVcu(
+      accounts[0],
+      Date.now(), // vintageStart
+      Date.now() + (90 * 24 * 60 * 60 * 1000), // vintageEnd
+      'Rick Sanchez',
+      2, // countryCodeNumeric
+      14, // sectoryScope
+      'A method', // methodology
+      1000, // totalVintageQuantity
+      20, // quantityIssued
+      false, // Non-negotiable
+    );
   });
 
   it('cannot make a VCU without details', async () => {
@@ -24,6 +36,7 @@ contract('VoluntaryCarbonUnit', (accounts) => {
       'A method', // methodology
       1000, // totalVintageQuantity
       20, // quantityIssued
+      false, // Non-negotiable
     );
 
     await vcu.safeTransferFrom(accounts[0], accounts[1], 2);
@@ -39,5 +52,24 @@ contract('VoluntaryCarbonUnit', (accounts) => {
       vcu.safeTransferFrom(accounts[0], accounts[1], 1),
       'Retired VCUs cannot be transfered',
     );
+  });
+
+  it('auto-retires non-negotiable VCUs', async () => {
+    await vcu.mintVcu(
+      accounts[0],
+      Date.now(), // vintageStart
+      Date.now() + (90 * 24 * 60 * 60 * 1000), // vintageEnd
+      'Rick Sanchez',
+      2, // countryCodeNumeric
+      14, // sectoryScope
+      'A method', // methodology
+      1000, // totalVintageQuantity
+      20, // quantityIssued
+      true, // Non-negotiable
+    );
+
+    await vcu.safeTransferFrom(accounts[0], accounts[1], 2);
+
+    assert.equal(true, await vcu.isRetired.call(2), 'Automatically retired after transfer.');
   });
 });

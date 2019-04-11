@@ -27,6 +27,8 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
         string methodology; // Are these actually numbers?
         uint64 totalVintageQuantity; // What is the actual range here?
         uint64 quantityIssued;
+
+        bool isNonNegotiable;
     }
 
     mapping(uint256 => VcuDetail) public vcuDetails;
@@ -50,11 +52,8 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
     }
 
     function retire(uint256 tokenId) public {
-        require(!isRetired(tokenId), "Cannot retire retired VCU.");
         require(msg.sender == ownerOf(tokenId), "Cannot retire another\u2019s VCU.");
-
-        // solhint-disable-next-line not-rely-on-time
-        vcuDetails[tokenId].retirementDate = now;
+        _retire(tokenId);
     }
 
     function isRetired(uint256 tokenId) public returns (bool) {
@@ -72,7 +71,8 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
         uint16 sectoryScope,
         string memory methodology,
         uint64 totalVintageQuantity,
-        uint64 quantityIssued
+        uint64 quantityIssued,
+        bool isNonNegotiable
 
     ) public onlyMinter returns (bool) {
 
@@ -94,12 +94,26 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
         vcuDetails[id].totalVintageQuantity = totalVintageQuantity;
         vcuDetails[id].quantityIssued = quantityIssued;
 
+        vcuDetails[id].isNonNegotiable = isNonNegotiable;
+
         _mint(to, id);
         return true;
     }
 
+    function _retire(uint256 tokenId) internal {
+        require(!isRetired(tokenId), "Cannot retire retired VCU.");
+
+        // solhint-disable-next-line not-rely-on-time
+        vcuDetails[tokenId].retirementDate = now;
+    }
+
+    // Overriden from OpenZepplin ERC721.sol to implement retirement and non-negotability
     function _transferFrom(address from, address to, uint256 tokenId) internal {
         require(!isRetired(tokenId), "Retired VCUs are not transferable.");
         super._transferFrom(from, to, tokenId);
+
+        if (vcuDetails[tokenId].isNonNegotiable) {
+            _retire(tokenId);
+        }
     }
 }

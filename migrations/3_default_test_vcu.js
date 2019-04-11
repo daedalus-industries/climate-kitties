@@ -13,5 +13,6 @@ module.exports = async (deployer, network, accounts) => {
     'A method', // methodology
     1000, // totalVintageQuantity
     20, // quantityIssued
+    false, // Non-negotiable
   );
 };
