@@ -68,6 +68,7 @@ class MyComponent extends React.Component {
             "methodology",
             "totalVintageQuantity",
             "quantityIssued",
+            "isNonNegotiable",
           ]}
         />
       </div>
