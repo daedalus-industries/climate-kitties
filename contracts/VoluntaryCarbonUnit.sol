@@ -60,6 +60,11 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
         return 0 != vcuDetails[tokenId].retirementDate;
     }
 
+    function approve(address to, uint256 tokenId) public {
+        require(!isRetired(tokenId), "Retired VCUs are not transferable.");
+        super.approve(to, tokenId);
+    }
+
     function mintVcu(
         address to,
 

@@ -52,6 +52,10 @@ contract('VoluntaryCarbonUnit', (accounts) => {
       vcu.safeTransferFrom(accounts[0], accounts[1], 1),
       'Retired VCUs cannot be transfered',
     );
+    await shouldFail(
+      vcu.approve(accounts[0], 1),
+      'Retired VCUs cannot be transfers cannot be approved.',
+    );
   });
 
   it('auto-retires non-negotiable VCUs', async () => {
