@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 
 const express = require('express');
+const cacheControl = require('express-cache-controller');
 const exphbs = require('express-handlebars');
 
 const Web3 = require('web3');
@@ -29,6 +30,10 @@ const port = 8080;
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
+app.use(cacheControl({
+  noCache: true
+}));
+
 const VoluntaryCarbonUnit = require('./build/contracts/VoluntaryCarbonUnit.json');
 
 // Ex. 'http://127.0.0.1:8545' '1554785162215';
@@ -55,6 +60,7 @@ app.get('/metadata/:id', async (request, response) => {
     'countryCodeNumeric',
     'totalVintageQuantity',
     'quantityIssued',
+    'retirementDate',
   ].forEach((field) => {
     attributes.push({
       trait_type: field,
@@ -62,10 +68,11 @@ app.get('/metadata/:id', async (request, response) => {
     });
   });
 
+  const isRetired = details.retirementDate !== 0;
   const erc721Metadata = {
     name: details.name,
     description: details.methodology,
-    image: `https://dsccm-236701.appspot.com/images/${details.id}?name=${details.name}&totalVintageQuantity=${details.totalVintageQuantity}&quantityIssued=${details.quantityIssued}`,
+    image: `https://dsccm-236701.appspot.com/images/${details.id}?name=${details.name}&totalVintageQuantity=${details.totalVintageQuantity}&quantityIssued=${details.quantityIssued}&isRetired=${isRetired}`,
     external_url: 'http://lestaricapital.com',
     attributes,
   };
@@ -77,10 +84,13 @@ app.get('/images/:id', (request, response) => {
   response.setHeader('content-type', 'image/svg+xml');
   response.render('vcu_badge', {
     layout: false, // Otherwise handlebars looks for a main template
+
+    // There's probably a way to shorten this
     id: request.params.id,
     name: request.query.name,
     quantity: request.query.quantityIssued,
     vintageTotal: request.query.totalVintageQuantity,
+    isRetired: request.query.isRetired,
   });
 });
 
