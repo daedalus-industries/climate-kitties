@@ -106,6 +106,34 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
         return true;
     }
 
+    function mintNonNegotiableVcu(
+        address to,
+
+        uint256 vintageStart,
+        uint256 vintageEnd,
+
+        string memory name,
+        uint16 countryCodeNumeric,
+        uint16 sectoryScope,
+        string memory methodology,
+        uint64 totalVintageQuantity,
+        uint64 quantityIssued
+
+    ) public onlyMinter returns (bool) {
+        mintVcu(
+            to,
+            vintageStart,
+            vintageEnd,
+            name,
+            countryCodeNumeric,
+            sectoryScope,
+            methodology,
+            totalVintageQuantity,
+            quantityIssued,
+            true // non-negotiable bit
+        );
+    }
+
     function _retire(uint256 tokenId) internal {
         require(!isRetired(tokenId), "Cannot retire retired VCU.");
 

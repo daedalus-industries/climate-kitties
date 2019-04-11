@@ -57,7 +57,7 @@ class MyComponent extends React.Component {
         <h3>Mint a Climate Kitten  W00t!</h3>
         <ContractForm
           contract="VoluntaryCarbonUnit"
-          method="mintVcu"
+          method="mintNonNegotiableVcu"
           labels={[
             "to",
             "vintageStart",
@@ -68,7 +68,6 @@ class MyComponent extends React.Component {
             "methodology",
             "totalVintageQuantity",
             "quantityIssued",
-            "isNonNegotiable",
           ]}
         />
       </div>
