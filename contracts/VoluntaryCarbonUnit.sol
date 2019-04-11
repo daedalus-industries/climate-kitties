@@ -79,6 +79,7 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
         require(vintageStart <= vintageEnd, "Vintage must end after start.");
 
         uint256 id = ++lastId;
+        vcuDetails[id].id = id;
 
         // solhint-disable-next-line not-rely-on-time
         vcuDetails[id].issuanceDate = now;
