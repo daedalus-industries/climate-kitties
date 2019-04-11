@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 
 const express = require('express');
+const exphbs = require('express-handlebars');
 
 const Web3 = require('web3');
 const contract = require('truffle-contract');
@@ -22,16 +23,13 @@ globalLog.on('error', (request, response) => {
   console.log('Response', response);
 });
 
-// returns a window with a document and an svg root node
-const window = require('svgdom');
-const SVG = require('svg.js')(window);
-
-const { document } = window;
-
-const VoluntaryCarbonUnit = require('./build/contracts/VoluntaryCarbonUnit.json');
-
 const app = express();
 const port = 8080;
+
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+
+const VoluntaryCarbonUnit = require('./build/contracts/VoluntaryCarbonUnit.json');
 
 // Ex. 'http://127.0.0.1:8545' '1554785162215';
 const { RPC_URL, NETWORK_ID } = process.env;
@@ -67,7 +65,7 @@ app.get('/metadata/:id', async (request, response) => {
   const erc721Metadata = {
     name: details.name,
     description: details.methodology,
-    image: 'https://dsccm-236701.appspot.com/static/verified_carbon.svg',
+    image: `https://dsccm-236701.appspot.com/images/${details.id}?name=${details.name}&totalVintageQuantity=${details.totalVintageQuantity}&quantityIssued=${details.quantityIssued}`,
     external_url: 'http://lestaricapital.com',
     attributes,
   };
@@ -75,17 +73,15 @@ app.get('/metadata/:id', async (request, response) => {
   response.json(erc721Metadata);
 });
 
-// This may not be used initially, but it's a cool idea
 app.get('/images/:id', (request, response) => {
-  const canvas = SVG(document.documentElement);
-  canvas
-    .rect(30, 30)
-    .fill('yellow')
-    .move(5, 5);
-  canvas.text(request.params.id);
-
   response.setHeader('content-type', 'image/svg+xml');
-  response.status(200).send(canvas.svg());
+  response.render('vcu_badge', {
+    layout: false, // Otherwise handlebars looks for a main template
+    id: request.params.id,
+    name: request.query.name,
+    quantity: request.query.quantityIssued,
+    vintageTotal: request.query.totalVintageQuantity,
+  });
 });
 
 app.use('/static', express.static('public'));
