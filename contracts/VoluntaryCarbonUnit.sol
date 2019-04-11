@@ -13,7 +13,7 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
     // Also if anything is left on-chain, a more generic structure should be
     // used, in the style of EternalStorage contracts. 
     struct VcuDetail {
-        uint32 id;
+        uint256 id;
 
         uint256 issuanceDate; // Maybe as days?
         uint256 retirementDate; // Maybe as days?
@@ -29,9 +29,9 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
         uint64 quantityIssued;
     }
 
-    mapping(uint32 => VcuDetail) public vcuDetails;
+    mapping(uint256 => VcuDetail) public vcuDetails;
 
-    uint32 public lastId = 0;
+    uint256 public lastId = 0;
 
     // solhint-disable-next-line no-empty-blocks
     constructor() public ERC721Full("Voluntary Carbon Unit Certificates", "VCU") {
@@ -47,6 +47,23 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
     // solhint-disable-next-line no-unused-vars
     function mint(address to, uint256 tokenId) public onlyMinter returns (bool) {
         revert("Not implemented. Use mint(to, VcuDetail) instead.");
+    }
+
+    function retire(uint256 tokenId) public {
+        require(!isRetired(tokenId), 'Cannot retire retired VCU.');
+        require(msg.sender == ownerOf(tokenId), 'Cannot retire another\u2019s VCU.');
+
+        // solhint-disable-next-line not-rely-on-time
+        vcuDetails[tokenId].retirementDate = now;
+    }
+
+    function isRetired(uint256 tokenId) public returns (bool) {
+        return 0 != vcuDetails[tokenId].retirementDate;
+    }
+
+    function _transferFrom(address from, address to, uint256 tokenId) internal {
+        require(!isRetired(tokenId), "Retired VCUs are not transferable.");
+        super._transferFrom(from, to, tokenId);
     }
 
     function mintVcu(
@@ -66,7 +83,7 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
 
         require(vintageStart <= vintageEnd, "Vintage must end after start.");
 
-        uint32 id = ++lastId;
+        uint256 id = ++lastId;
 
         // solhint-disable-next-line not-rely-on-time
         vcuDetails[id].issuanceDate = now;

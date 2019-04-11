@@ -32,4 +32,12 @@ contract('VoluntaryCarbonUnit', (accounts) => {
     const returnedDetails = await vcu.vcuDetails.call(2);
     assert.equal('Rick Sanchez', returnedDetails.name);
   });
+
+  it('can retired VCUs', async () => {
+    await vcu.retire(1);
+    await shouldFail(
+      vcu.safeTransferFrom(accounts[0], accounts[1], 1),
+      'Retired VCUs cannot be transfered',
+    );
+  });
 });
