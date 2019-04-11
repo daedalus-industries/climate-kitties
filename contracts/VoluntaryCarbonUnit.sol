@@ -50,8 +50,8 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
     }
 
     function retire(uint256 tokenId) public {
-        require(!isRetired(tokenId), 'Cannot retire retired VCU.');
-        require(msg.sender == ownerOf(tokenId), 'Cannot retire another\u2019s VCU.');
+        require(!isRetired(tokenId), "Cannot retire retired VCU.");
+        require(msg.sender == ownerOf(tokenId), "Cannot retire another\u2019s VCU.");
 
         // solhint-disable-next-line not-rely-on-time
         vcuDetails[tokenId].retirementDate = now;
@@ -59,11 +59,6 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
 
     function isRetired(uint256 tokenId) public returns (bool) {
         return 0 != vcuDetails[tokenId].retirementDate;
-    }
-
-    function _transferFrom(address from, address to, uint256 tokenId) internal {
-        require(!isRetired(tokenId), "Retired VCUs are not transferable.");
-        super._transferFrom(from, to, tokenId);
     }
 
     function mintVcu(
@@ -101,5 +96,10 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
 
         _mint(to, id);
         return true;
+    }
+
+    function _transferFrom(address from, address to, uint256 tokenId) internal {
+        require(!isRetired(tokenId), "Retired VCUs are not transferable.");
+        super._transferFrom(from, to, tokenId);
     }
 }

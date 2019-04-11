@@ -31,7 +31,7 @@ app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
 app.use(cacheControl({
-  noCache: true
+  noCache: true,
 }));
 
 const VoluntaryCarbonUnit = require('./build/contracts/VoluntaryCarbonUnit.json');
