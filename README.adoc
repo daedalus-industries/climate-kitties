@@ -32,6 +32,7 @@ Due to the extra metadata required, the standard `mint(to, id)` function is *not
 
 Minting a new VCU requires the sending address to have minter permissions granted by calling `token.addMinter(address)` from the owning address.
 
+Note that the standard migration tasks in NPM, that is `migrate:local` and `migrate:rinkeby` reset the network as we do not have an upgrade strategy for this prototype. As we Git ignore all the contract JSON, we don't have even the most basic packaging solution either.
 
 == Quick start
 
