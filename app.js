@@ -26,7 +26,7 @@ globalLog.on('error', (request, response) => {
 const app = express();
 const port = 8080;
 
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
 const VoluntaryCarbonUnit = require('./build/contracts/VoluntaryCarbonUnit.json');
