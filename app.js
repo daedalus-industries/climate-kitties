@@ -94,8 +94,6 @@ app.get('/images/:id', (request, response) => {
   });
 });
 
-app.use('/static', express.static('public'));
-
 app.get('/favicon.ico', (request, response) => {
   response.status(404).send("Sorry can't find that!");
 });
