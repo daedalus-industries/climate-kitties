@@ -8,6 +8,9 @@ const exphbs = require('express-handlebars');
 const Web3 = require('web3');
 const contract = require('truffle-contract');
 
+const lookup = require('country-code-lookup');
+const date = require('date-and-time');
+
 const globalLog = require('global-request-logger');
 
 globalLog.initialize();
@@ -59,10 +62,7 @@ app.get('/metadata/:id', async (request, response) => {
   const attributes = [];
   [
     'id',
-    'countryCodeNumeric',
-    'totalVintageQuantity',
-    'quantityIssued',
-    'retirementDate',
+    'methodology',
   ].forEach((field) => {
     attributes.push({
       trait_type: field,
@@ -70,7 +70,40 @@ app.get('/metadata/:id', async (request, response) => {
     });
   });
 
-  const isRetired = details.retirementDate.toNumber() !== 0;
+  attributes.push({
+    trait_type: 'totalVintageQuantity',
+    value: details.totalVintageQuantity.toNumber(),
+  });
+
+  attributes.push({
+    trait_type: 'quantityIssued',
+    value: details.quantityIssued.toNumber(),
+  });
+
+  const retirementDateText = date.format(new Date(details.retirementDate), 'YYYY-MM-DD HH:mm:ss', true);
+  attributes.push({
+    trait_type: 'retirementDate',
+    value: retirementDateText,
+  });
+
+  const issuanceTimestamp = details.issuanceDate.toNumber();
+  if (issuanceTimestamp !== 0) {
+    const issuanceDateText = date.format(new Date(issuanceTimestamp), 'YYYY-MM-DD HH:mm:ss', true);
+    attributes.push({
+      trait_type: 'issuanceDate',
+      value: issuanceDateText,
+    });
+  }
+
+  const country = lookup.byIso(details.countryCodeNumeric);
+  const countryName = country ? country.country : details.countryCodeNumeric;
+
+  attributes.push({
+    trait_type: 'country',
+    value: countryName,
+  });
+
+  const isRetired = issuanceTimestamp !== 0;
   const erc721Metadata = {
     name: details.name,
     description: details.methodology,

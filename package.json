@@ -39,6 +39,8 @@
   "dependencies": {
     "babel-polyfill": "6.26.0",
     "babel-register": "6.26.0",
+    "country-code-lookup": "0.0.12",
+    "date-and-time": "^0.6.3",
     "express": "4.16.4",
     "express-cache-controller": "^1.1.0",
     "express-handlebars": "^3.0.2",
