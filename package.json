@@ -29,6 +29,7 @@
     "coverage": "npx solidity-coverage",
     "migrate:local": "npx truffle migrate --network local --reset && cp build/contracts/* app/src/contracts/",
     "migrate:rinkeby": "npx truffle migrate --network rinkeby --reset && cp build/contracts/* app/src/contracts/",
+    "migrate:kovan": "npx truffle migrate --network kovan --reset && cp build/contracts/* app/src/contracts/",
     "deploy": "npx truffle deploy",
     "flatten": "npx truffle-flattener $(find contracts -type f -print0 | tr \\\\0 \\  ) > build/flat.sol",
     "web3j": "find build/contracts -name \"*.json\" -exec web3j truffle generate --javaTypes {} -p com.lestari.android.blockchain.contract -o build/java/ \\;",
