@@ -54,7 +54,7 @@ class MyComponent extends React.Component {
             methodArgs={[this.props.accounts[0]]}
           />
         </p>
-        <h3>Mint a Climate Kitten  W00t!</h3>
+        <h3>Mint a (non-negotiable) Climate Kitten  W00t!</h3>
         <ContractForm
           contract="VoluntaryCarbonUnit"
           method="mintNonNegotiableVcu"
@@ -68,6 +68,33 @@ class MyComponent extends React.Component {
             "methodology",
             "totalVintageQuantity",
             "quantityIssued",
+          ]}
+        />
+        <h3>Mint a (negotiable) Climate Kitten  W00t!</h3>
+        <p>(Ignore the checkbox. It's broken and we've filed a bug with the UI library we're using.)</p>
+        <ContractForm
+          contract="VoluntaryCarbonUnit"
+          method="mintVcu"
+          labels={[
+            "to",
+            "vintageStart",
+            "vintageEnd",
+            "name",
+            "countryCodeNumeric",
+            "sectoryScope",
+            "methodology",
+            "totalVintageQuantity",
+            "quantityIssued",
+            "isNonNegotiable"
+          ]}
+        />
+        <h3>Retire a kitty</h3>
+        <p>If the kitten is non-negotiable, this will also happen the first time it is transferred.</p>
+        <ContractForm
+          contract="VoluntaryCarbonUnit"
+          method="retire"
+          labels={[
+            "tokenId",
           ]}
         />
       </div>
