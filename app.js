@@ -46,6 +46,8 @@ app.get('/', (request, response) => {
   response.json(walletProvider);
 });
 
+app.use('/static', express.static('public'));
+
 app.get('/metadata/:id', async (request, response) => {
   const vcu = contract(VoluntaryCarbonUnit);
   vcu.setProvider(web3.currentProvider);

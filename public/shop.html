@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <script src="https://instant.0x.org/instant.js" ></script>
+        <title>Lestari VCU Shop</title>
+    </head>
+    <body onLoad="renderZeroExInstant()">
+        <script type='text/javascript'>
+            function renderZeroExInstant() {
+                zeroExInstant.render(
+                    {
+                        orderSource: 'https://api.kovan.radarrelay.com',
+                        networkId: 42,
+                        additionalAssetMetaDataMap:
+                        {
+                            // Proxy Id <---- 0000 padding ---> ERC721 address (without 0x in front)
+                            '0x0257179200000000000000000000000001F2dA0c247278cf54e6468D77d2ae8f6215668C7': {
+                                assetProxyId: '0x02571792', // ERC721 Proxy Id
+                                decimals: 1,
+                                symbol: 'VCU',
+                                name: 'Voluntary Carbon Unit',
+                                imageUrl: 'https://cdn.icons.com/my_icon.svg',
+                            },
+                        },
+                    },
+                    'body',
+                );
+            }
+        </script>
+    </body>
+</html>
