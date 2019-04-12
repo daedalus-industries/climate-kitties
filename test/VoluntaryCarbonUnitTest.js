@@ -59,7 +59,7 @@ contract('VoluntaryCarbonUnit', (accounts) => {
   });
 
   it('auto-retires non-negotiable VCUs', async () => {
-    await vcu.mintVcu(
+    await vcu.mintNonNegotiableVcu(
       accounts[0],
       Date.now(), // vintageStart
       Date.now() + (90 * 24 * 60 * 60 * 1000), // vintageEnd
@@ -69,11 +69,9 @@ contract('VoluntaryCarbonUnit', (accounts) => {
       'A method', // methodology
       1000, // totalVintageQuantity
       20, // quantityIssued
-      true, // Non-negotiable
     );
 
     await vcu.safeTransferFrom(accounts[0], accounts[1], 2);
-
     assert.equal(true, await vcu.isRetired.call(2), 'Automatically retired after transfer.');
   });
 });

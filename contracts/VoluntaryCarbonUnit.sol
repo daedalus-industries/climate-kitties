@@ -80,6 +80,63 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
         bool isNonNegotiable
 
     ) public onlyMinter returns (bool) {
+        _mintVcu(
+            to,
+            vintageStart,
+            vintageEnd,
+            name,
+            countryCodeNumeric,
+            sectoryScope,
+            methodology,
+            totalVintageQuantity,
+            quantityIssued,
+            isNonNegotiable
+        );
+    }
+
+    function mintNonNegotiableVcu(
+        address to,
+
+        uint256 vintageStart,
+        uint256 vintageEnd,
+
+        string memory name,
+        uint16 countryCodeNumeric,
+        uint16 sectoryScope,
+        string memory methodology,
+        uint64 totalVintageQuantity,
+        uint64 quantityIssued
+
+    ) public onlyMinter returns (bool) {
+        _mintVcu(
+            to,
+            vintageStart,
+            vintageEnd,
+            name,
+            countryCodeNumeric,
+            sectoryScope,
+            methodology,
+            totalVintageQuantity,
+            quantityIssued,
+            true // non-negotiable bit
+        );
+    }
+
+    function _mintVcu(
+        address to,
+
+        uint256 vintageStart,
+        uint256 vintageEnd,
+
+        string memory name,
+        uint16 countryCodeNumeric,
+        uint16 sectoryScope,
+        string memory methodology,
+        uint64 totalVintageQuantity,
+        uint64 quantityIssued,
+        bool isNonNegotiable
+
+    ) internal returns (bool) {
 
         require(vintageStart <= vintageEnd, "Vintage must end after start.");
 
@@ -104,34 +161,6 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
 
         _mint(to, id);
         return true;
-    }
-
-    function mintNonNegotiableVcu(
-        address to,
-
-        uint256 vintageStart,
-        uint256 vintageEnd,
-
-        string memory name,
-        uint16 countryCodeNumeric,
-        uint16 sectoryScope,
-        string memory methodology,
-        uint64 totalVintageQuantity,
-        uint64 quantityIssued
-
-    ) public onlyMinter returns (bool) {
-        mintVcu(
-            to,
-            vintageStart,
-            vintageEnd,
-            name,
-            countryCodeNumeric,
-            sectoryScope,
-            methodology,
-            totalVintageQuantity,
-            quantityIssued,
-            true // non-negotiable bit
-        );
     }
 
     function _retire(uint256 tokenId) internal {
