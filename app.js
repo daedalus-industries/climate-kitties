@@ -68,7 +68,7 @@ app.get('/metadata/:id', async (request, response) => {
     });
   });
 
-  const isRetired = details.retirementDate !== 0;
+  const isRetired = details.retirementDate.toNumber() !== 0;
   const erc721Metadata = {
     name: details.name,
     description: details.methodology,
