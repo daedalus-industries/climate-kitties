@@ -73,4 +73,17 @@ Only the root Truffle project is currently unit tested.
 
 == Contribution Guidelines
 
-Something something Apache Griffin to write stuff :)
+This project is open source software released with an Apache 2.0 license.
+
+=== Submitting Issues
+
+Please submit issues and add them to the appropriate Milestone, as well as any relevant tags.
+
+=== Merging Pull Requests
+Keep your branch up to date with develop using `rebase` instead of `merge`.
+
+=== Commit Messages
+- The 50/72 rule. The first line should be capitalized and can go up to 50 chars, following lines should preferably be wrapped at 72
+- Bullet points are good, please use indentation though. For the bullet, you can choose between asterisks or hyphens.
+For the first line, try to be specific. e.g: "Ensure keys are unique" instead of "Fix a bug with keys"
+If you're adding or changing existing tests, they should go on the same commit.
