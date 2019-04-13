@@ -24,8 +24,8 @@ class MyComponent extends React.Component {
     return <div className="App">
       <div>
         <img src={logo} alt="drizzle-logo" />
-        <h1>Climate Kitties Alpha Minting Dashboard</h1>
-        <p>Just so there's an interface. In the absence of Verra's input there's little point going beyond this <span role="img" aria-label="shrug">🤷‍♀️</span></p>
+        <h1>VCU Alpha Minting Dashboard</h1>
+        <p>Just so there's an interface. In the absence of Verra's input there's little point going beyond something this simple <span role="img" aria-label="shrug">🤷‍♀️</span></p>
       </div>
 
       <div className="section">
@@ -54,7 +54,7 @@ class MyComponent extends React.Component {
             methodArgs={[this.props.accounts[0]]}
           />
         </p>
-        <h3>Mint a (non-negotiable) Climate Kitten  W00t!</h3>
+        <h3>Mint a non-negotiable VCU</h3>
         <ContractForm
           contract="VoluntaryCarbonUnit"
           method="mintNonNegotiableVcu"
@@ -70,7 +70,7 @@ class MyComponent extends React.Component {
             "quantityIssued",
           ]}
         />
-        <h3>Mint a (negotiable) Climate Kitten  W00t!</h3>
+        <h3>Mint a negotiable VCU</h3>
         <p>(Ignore the checkbox. It's broken and we've filed a bug with the UI library we're using.)</p>
         <ContractForm
           contract="VoluntaryCarbonUnit"
@@ -88,8 +88,8 @@ class MyComponent extends React.Component {
             "isNonNegotiable"
           ]}
         />
-        <h3>Retire a kitty</h3>
-        <p>If the kitten is non-negotiable, this will also happen the first time it is transferred.</p>
+        <h3>Retire a VCU</h3>
+        <p>If the VCU is non-negotiable, this will also happen the first time it is transferred.</p>
         <ContractForm
           contract="VoluntaryCarbonUnit"
           method="retire"
