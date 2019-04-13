@@ -1,4 +1,17 @@
-= Climate Kitties
+= VCUs - also known as Climate Kitties
+
+This is a simple NFT project for Voluntary Carbon Units, informally referred to within as the technology used is the same as the popular https://www.cryptokitties.co[CryptoKitties] trading games.
+
+Once minted, either locally or on the Kovan testnet through the https://dsscm-metadata.appspot.com/[hosted dashboard], VCUs (or Climate Kitties 🙂) have the same behaviour as most ERC721 tokens. They work in https://www.coinbase.com[the] https://enjinx.io[same] https://trustwallet.com[wallets], and can be sold on collectables exchanges like https://opensea.io[OpenSea] or https://boxswap.io[BoxSwap].
+
+VCUs differ from most tokens as they can be retired. Retired VCUs can no longer be transferred, and have a retirement date. VCUs can also be negotiable [they can be assigned to another legal person] or non-negotiable. Non-negotiable VCUs can be transferred once after minting, and are then automatically retired and cannot be transferred again.
+
+Since this automatic retirement is a feature of the _token_ *not* the _exchange or wallet_, this does not prevent the VCU from being sold through a 3rd party service. Other requirements, such as KYC or AML measures, could be similiarly introduced without breaking compatibility with the wider Ethereum ecosystem.
+
+The kitties are currently immortal, that's to say, having issued one we cannot recall or destroy it (or control how it is transferred). But this can be changed, and arbitrary governance mechanisms introduced. See Circle's https://blog.circle.com/2018/11/07/a-deeper-look-at-stablecoins-and-usdc/[USDC] for example. (Which with some fiddling, Climate Kitties can https://medium.com/opensea/buy-and-sell-crypto-collectibles-with-usdc-1ec58aef1022[already use] through OpenSea.)
+
+Currently we use a small webservice on Google Cloud for image hosting. Its failure would not affect anything other than image on each kittie. In the future, we should be able to remove this but we need to understand the metadata requirements better.
+
 
 == Prerequisites
 
