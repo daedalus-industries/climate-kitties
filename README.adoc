@@ -87,3 +87,41 @@ Keep your branch up to date with develop using `rebase` instead of `merge`.
 - Bullet points are good, please use indentation though. For the bullet, you can choose between asterisks or hyphens.
 For the first line, try to be specific. e.g: "Ensure keys are unique" instead of "Fix a bug with keys"
 If you're adding or changing existing tests, they should go on the same commit.
+
+
+== Areas for Future Work
+
+=== Nicer dashboard
+
+Currently the dashboard uses the <ContractData> and <ContractForm> Drizzle-React elements for everything. This does not allow of validation or things like rendering the numeric country code in a nice way.
+
+There's also no display of the user's own VCUs, or the ability to look-up VCUs.
+
+
+=== Better modeling of VCUs
+
+Our current modelling of the VCUs is crude, and does not allow for any fungibility, even within a single conservation project or vintage.
+
+We need a clearer understanding of what data is fixed, what can be updated, how the amendment process works, etc. We also currently use the OpenSea "standard" for additional ERC721 attributes despite it not being an EIP.
+
+Would also be interesting to look at the ERC1155 proposal for a single contract to represent an arbitarily large "universe" of tokens, as well as standards for NFT tokens to "own" fungible tokens.
+
+
+=== 0x Integation
+
+There's a half finished 0x Instant integration at `public/shop.html`. This will be easier to complete if 0x merge the required code for Instant to handle ERC721 NFTs. See the file for more details.
+
+To make it useful, the dashboard would need wiring up to https://openrelay.xyz[OpenRelay.xyz], initial code in `app/src/0x`.
+
+
+=== Creation Process
+
+We currently treat the VCUs as being simply "minted" into existence. In reality this is a multi-step multi-party process which is initiated by the project owner, not the VCU scheme sponsor.
+
+=== Validation Games
+
+It would be interesting to attempt to set-up so-called verification games, where audits and challenging those audits could be incentivised.
+
+=== Fiat Bridge
+
+There should be some ability in the system to accept USD/SGD/EURs etc. Preferably using a credit card. Safello have in interesting third-party integration for the European market. (Note: Author is a shareholder in Safello 🙂)
