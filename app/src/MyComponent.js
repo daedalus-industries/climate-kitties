@@ -55,6 +55,7 @@ class MyComponent extends React.Component {
           />
         </p>
         <h3>Mint a non-negotiable VCU</h3>
+        <p>(Remember that vintages need to end after they start.)</p>
         <ContractForm
           contract="VoluntaryCarbonUnit"
           method="mintNonNegotiableVcu"

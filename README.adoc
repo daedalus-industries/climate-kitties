@@ -39,6 +39,8 @@ The metadata server shares its dependencies and contracts JSON with the root Tru
 
 === Contracts
 
+NOTE: To migrate to a public network, the environment variable `MNEMONIC` should be set to the desired BIP39 wallet seed phrase.
+
 Currently, only the Voluntary Carbon Unit NFT token is implemented. It is contained in the source file `VoluntaryCarbonUnit.sol`.
 
 Due to the extra metadata required, the standard `mint(to, id)` function is *not* supported. Use `mintVcu(...)` instead.
