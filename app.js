@@ -84,11 +84,16 @@ app.get('/metadata/:id', async (request, response) => {
     value: details.quantityIssued.toNumber(),
   });
 
-  const retirementDateText = date.format(new Date(details.retirementDate), 'YYYY-MM-DD HH:mm:ss', true);
-  attributes.push({
-    trait_type: 'retirementDate',
-    value: retirementDateText,
-  });
+  const retirementTimestamp = details.retirementDate.toNumber();
+  const isRetired = retirementTimestamp !== 0;
+
+  if (isRetired) {
+    const retirementDateText = date.format(new Date(details.retirementDate), 'YYYY-MM-DD HH:mm:ss', true);
+    attributes.push({
+      trait_type: 'retirementDate',
+      value: retirementDateText,
+    });
+  }
 
   const issuanceTimestamp = details.issuanceDate.toNumber();
   if (issuanceTimestamp !== 0) {
@@ -107,8 +112,6 @@ app.get('/metadata/:id', async (request, response) => {
     value: countryName,
   });
 
-  const retirementTimestamp = details.retirementDate.toNumber();
-  const isRetired = retirementTimestamp !== 0;
   const erc721Metadata = {
     name: details.name,
     description: details.methodology,
