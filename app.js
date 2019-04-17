@@ -103,7 +103,8 @@ app.get('/metadata/:id', async (request, response) => {
     value: countryName,
   });
 
-  const isRetired = issuanceTimestamp !== 0;
+  const retirementTimestamp = details.retirementDate.toNumber();
+  const isRetired = retirementTimestamp !== 0;
   const erc721Metadata = {
     name: details.name,
     description: details.methodology,
