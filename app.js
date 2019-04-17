@@ -88,7 +88,7 @@ app.get('/metadata/:id', async (request, response) => {
   const isRetired = retirementTimestamp !== 0;
 
   if (isRetired) {
-    const retirementDateText = date.format(new Date(details.retirementDate), 'YYYY-MM-DD HH:mm:ss', true);
+    const retirementDateText = date.format(new Date(retirementTimestamp), 'YYYY-MM-DD HH:mm:ss', true);
     attributes.push({
       trait_type: 'retirementDate',
       value: retirementDateText,
