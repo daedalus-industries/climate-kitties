@@ -1,5 +1,5 @@
 runtime: nodejs
 env: flex
 env_variables:
-  RPC_URL: 'https://kovan.infura.io/v3/666ad5e212fb4d08bb591999bdac105b'
-  NETWORK_ID: 42
+  RPC_URL: 'https://rinkeby.infura.io/v3/666ad5e212fb4d08bb591999bdac105b'
+  NETWORK_ID: 4
