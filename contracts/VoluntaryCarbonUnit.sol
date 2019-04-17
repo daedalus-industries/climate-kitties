@@ -6,6 +6,10 @@ import "./third-party/strings.sol";
 
 contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
 
+    event Retirement(
+        uint256 indexed tokenId
+    );
+
     using strings for *;
 
     // Long-term, most if not all, of this should be in IPFS JSON
@@ -168,6 +172,8 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
 
         // solhint-disable-next-line not-rely-on-time
         vcuDetails[tokenId].retirementDate = now;
+
+        emit Retirement(tokenId);
     }
 
     // Overriden from OpenZepplin ERC721.sol to implement retirement and non-negotability

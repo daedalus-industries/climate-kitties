@@ -1,4 +1,5 @@
 import shouldFail from 'openzeppelin-test-helpers/src/shouldFail';
+import expectEvent from 'openzeppelin-test-helpers/src/expectEvent';
 
 const VoluntaryCarbonUnit = artifacts.require('VoluntaryCarbonUnit');
 
@@ -47,7 +48,9 @@ contract('VoluntaryCarbonUnit', (accounts) => {
   });
 
   it('can retired VCUs', async () => {
-    await vcu.retire(1);
+    const retireTx = await vcu.retire(1);
+    expectEvent.inTransaction(retireTx.receipt.transactionHash, VoluntaryCarbonUnit, 'Retirement');
+
     await shouldFail(
       vcu.safeTransferFrom(accounts[0], accounts[1], 1),
       'Retired VCUs cannot be transfered',
