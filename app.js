@@ -4,6 +4,7 @@
 const express = require('express');
 const cacheControl = require('express-cache-controller');
 const exphbs = require('express-handlebars');
+const boolParser = require('express-query-boolean');
 
 const Web3 = require('web3');
 const contract = require('truffle-contract');
@@ -29,6 +30,9 @@ globalLog.on('error', (request, response) => {
 
 const app = express();
 const port = 8080;
+
+// This is optional middleware I have to add myself? Seriously?
+app.use(boolParser());
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');

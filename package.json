@@ -45,6 +45,7 @@
     "express": "4.16.4",
     "express-cache-controller": "^1.1.0",
     "express-handlebars": "^3.0.2",
+    "express-query-boolean": "^2.0.0",
     "ganache-cli": "6.2.5",
     "global-request-logger": "0.1.1",
     "svg.js": "2.7.1",
