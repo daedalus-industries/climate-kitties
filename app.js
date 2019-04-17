@@ -107,7 +107,7 @@ app.get('/metadata/:id', async (request, response) => {
   const erc721Metadata = {
     name: details.name,
     description: details.methodology,
-    image: `https://dsccm-236701.appspot.com/images/${details.id}?name=${details.name}&totalVintageQuantity=${details.totalVintageQuantity}&quantityIssued=${details.quantityIssued}&isRetired=${isRetired}`,
+    image: `https://dsscm-metadata.appspot.com/images/${details.id}?name=${details.name}&totalVintageQuantity=${details.totalVintageQuantity}&quantityIssued=${details.quantityIssued}&isRetired=${isRetired}`,
     external_url: 'http://lestaricapital.com',
     attributes,
   };

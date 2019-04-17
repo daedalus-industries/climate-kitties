@@ -45,9 +45,14 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
 
     function tokenURI(uint256 tokenId) external view returns (string memory) {
         string memory tokenIdString = tokenId.uint2str();
-        return
-            "https://dsccm-236701.appspot.com/metadata/".toSlice()
-            .concat(tokenIdString.toSlice());
+        strings.slice memory urlBuilder = "https://dsscm-metadata.appspot.com/metadata/".toSlice();
+        urlBuilder = urlBuilder.concat(tokenIdString.toSlice()).toSlice();
+
+        urlBuilder = urlBuilder.concat("?contractAddress=".toSlice()).toSlice();
+        urlBuilder = urlBuilder.concat(uint256(address(this)).uint2str().toSlice()).toSlice();
+
+        urlBuilder = urlBuilder.concat("&blocknum=".toSlice()).toSlice();
+        return urlBuilder.concat(block.number.uint2str().toSlice());
     }
 
     // solhint-disable-next-line no-unused-vars
@@ -60,7 +65,7 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
         _retire(tokenId);
     }
 
-    function isRetired(uint256 tokenId) public returns (bool) {
+    function isRetired(uint256 tokenId) public view returns (bool) {
         return 0 != vcuDetails[tokenId].retirementDate;
     }
 
