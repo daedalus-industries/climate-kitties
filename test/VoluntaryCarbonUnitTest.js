@@ -64,8 +64,8 @@ contract('VoluntaryCarbonUnit', (accounts) => {
   it('auto-retires non-negotiable VCUs', async () => {
     await vcu.mintNonNegotiableVcu(
       accounts[0],
-      Date.now(), // vintageStart
-      Date.now() + (90 * 24 * 60 * 60 * 1000), // vintageEnd
+      Math.trunc(Date.now() / 1000), // vintageStart
+      Math.trunc((Date.now() / 1000) + (90 * 24 * 60 * 60)), // vintageEnd
       'Rick Sanchez',
       2, // countryCodeNumeric
       14, // sectoryScope

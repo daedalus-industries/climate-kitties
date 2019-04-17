@@ -14,6 +14,8 @@ const date = require('date-and-time');
 
 const globalLog = require('global-request-logger');
 
+const MILLI = 1000;
+
 globalLog.initialize();
 
 globalLog.on('success', (request, response) => {
@@ -84,7 +86,7 @@ app.get('/metadata/:id', async (request, response) => {
     value: details.quantityIssued.toNumber(),
   });
 
-  const retirementTimestamp = details.retirementDate.toNumber();
+  const retirementTimestamp = details.retirementDate.toNumber() * MILLI;
   const isRetired = retirementTimestamp !== 0;
 
   if (isRetired) {
@@ -95,7 +97,7 @@ app.get('/metadata/:id', async (request, response) => {
     });
   }
 
-  const issuanceTimestamp = details.issuanceDate.toNumber();
+  const issuanceTimestamp = details.issuanceDate.toNumber() * MILLI;
   if (issuanceTimestamp !== 0) {
     const issuanceDateText = date.format(new Date(issuanceTimestamp), 'YYYY-MM-DD HH:mm:ss', true);
     attributes.push({
