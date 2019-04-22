@@ -3,6 +3,7 @@ pragma solidity ^0.5.7;
 import "openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
 import "openzeppelin-solidity/contracts/token/ERC721/ERC721Mintable.sol";
 import "./third-party/strings.sol";
+import "./VoluntaryCarbonUnitData.sol";
 
 contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
 
@@ -12,30 +13,7 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
 
     using strings for *;
 
-    // Long-term, most if not all, of this should be in IPFS JSON
-    // but staying on-chain makes things easy for now.
-    // Also if anything is left on-chain, a more generic structure should be
-    // used, in the style of EternalStorage contracts. 
-    struct VcuDetail {
-        uint256 id;
-
-        uint256 issuanceDate; // Maybe as days?
-        uint256 retirementDate; // Maybe as days?
-
-        uint256 vintageStart;
-        uint256 vintageEnd; // Is the end always known?
-
-        string name;
-        uint16 countryCodeNumeric; // See https://en.wikipedia.org/wiki/ISO_3166-1_numeric
-        uint16 sectoryScope; // Turn me into an enum
-        string methodology; // Are these actually numbers?
-        uint64 totalVintageQuantity; // What is the actual range here?
-        uint64 quantityIssued;
-
-        bool isNonNegotiable;
-    }
-
-    mapping(uint256 => VcuDetail) public vcuDetails;
+    mapping(uint256 => VoluntaryCarbonUnitData.VcuDetail) public vcuDetails;
 
     uint256 public lastId = 0;
 
@@ -53,6 +31,12 @@ contract VoluntaryCarbonUnit is ERC721Full, ERC721Mintable {
 
         urlBuilder = urlBuilder.concat("&blocknum=".toSlice()).toSlice();
         return urlBuilder.concat(block.number.uint2str().toSlice());
+    }
+
+    // Yes, you should be able to pick this up from the struct. However this only works
+    // with ABIv2 (and even then the strings confuse it).
+    function getQuantityIssued(uint256 tokenId) public view returns (uint256) {
+        return vcuDetails[tokenId].quantityIssued;
     }
 
     // solhint-disable-next-line no-unused-vars
