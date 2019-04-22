@@ -29,7 +29,7 @@ contract CarbonShop is IERC721Receiver {
 
         // Transfer it
         if (canSellSomething) {
-            vcu.safeTransferFrom(address(this), msg.sender, tokenIdOfThing);
+            vcu.safeTransferFrom(vcu.ownerOf(tokenIdOfThing), msg.sender, tokenIdOfThing);
             isForSale[tokenIdOfThing] = false;
         }
 
@@ -44,14 +44,22 @@ contract CarbonShop is IERC721Receiver {
     public returns (bytes4)
     {
         require(address(vcu) == address(vcu), "Only carbon for sale here.");
+        _listVcu(tokenId);
+        return ERC721_RECEIVED;
+    }
 
+    function listVcu(uint tokenId) public {
+        require(msg.sender == vcu.ownerOf(tokenId), "Need ownership to list.");
+        require(address(this) == vcu.getApproved(tokenId), "Need to grant approval before listing.");
+        _listVcu(tokenId);
+    }
+
+    function _listVcu(uint256 tokenId) internal {
         // Record that it is for sale
         isForSale[tokenId] = true;
 
         // Add to inventory
         inventory.push(tokenId);
-
-        return ERC721_RECEIVED;
     }
 
     function findVcuForAmount(uint256 amount) internal view returns (bool, uint256, uint256) {
