@@ -9,18 +9,33 @@ import PropTypes from "prop-types";
 
 import logo from "./kitten.jpeg";
 
+import EthereumQRPlugin from 'ethereum-qr-code'
+
 const mapStateToProps = state => {
   return {
     accounts: state.accounts,
     drizzleStatus: state.drizzleStatus,
     drizzleState: state.drizzleState,
-    contracts: state.contracts
+    contracts: state.contracts,
+    dizzle: state.drizzle
   };
 };
 
 class MyComponent extends React.Component {
+  constructor(props, context) {
+    super(props);
+  }
+
+  componentDidMount () {
+    const qr = new EthereumQRPlugin();
+    qr.toCanvas(
+      {to: this.context.drizzle.contracts.CarbonShop.address},
+      {selector: '#shop-qr-code',}
+    );
+  }
 
   render() {
+    
     return <div className="App">
       <div>
         <img src={logo} alt="drizzle-logo" />
@@ -98,6 +113,10 @@ class MyComponent extends React.Component {
             "tokenId",
           ]}
         />
+        <h3>VCU Shop</h3>
+        <p>Feeling guilty. Carbon footprint getting you down. Send ether to address below for instant absolution!</p>
+        <p>{this.context.drizzle.contracts.CarbonShop.address}</p>
+        <div id="shop-qr-code" />
       </div>
     </div>
   };

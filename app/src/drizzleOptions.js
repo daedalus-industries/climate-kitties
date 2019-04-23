@@ -1,10 +1,11 @@
 import VoluntaryCarbonUnit from "./contracts/VoluntaryCarbonUnit.json";
+import CarbonShop from "./contracts/CarbonShop.json";
 
 const options = {
   web3: {
     block: false,
   },
-  contracts: [VoluntaryCarbonUnit],
+  contracts: [VoluntaryCarbonUnit, CarbonShop],
   events: {
     VoluntaryCarbonUnit: ["Transfer", "Approval", "ApprovalForAll"]
   },
