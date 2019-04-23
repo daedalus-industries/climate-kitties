@@ -31,6 +31,7 @@ module.exports = {
       network_id: 4,
       gas: 4700000,
       gasPrice: 1000000000,
+      skipDryRun: true, // See https://github.com/trufflesuite/truffle/issues/1698
     },
     kovan: {
       provider: () => new HDWalletProvider(mnemonic, 'https://kovan.infura.io/v3/666ad5e212fb4d08bb591999bdac105b'),
