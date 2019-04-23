@@ -93,11 +93,19 @@ contract('CarbonShop', (accounts) => {
   it('can sell a non-negotiable VCU using approvals', async () => {
     await vcu.approve(shop.address, 2);
     await shop.listVcu(2);
-    await shop.send(10e10);
+    await shop.send(10e10, { from: accounts[4] });
 
-    assert.equal(accounts[0], await vcu.ownerOf.call(2));
+    assert.equal(accounts[4], await vcu.ownerOf.call(2));
     assert.equal(2e10, await web3.eth.getBalance(shop.address));
 
     assert.equal(true, await vcu.isRetired.call(2));
+  });
+
+  it('does a straight sale with the default shop set-up', async () => {
+    const v = await VoluntaryCarbonUnit.deployed();
+    const s = await CarbonShop.deployed();
+    assert.equal((await v.balanceOf(accounts[3])).toNumber(), 0);
+    await s.send(10e18, { from: accounts[3] });
+    assert.equal((await v.balanceOf(accounts[3])).toNumber(), 1);
   });
 });
