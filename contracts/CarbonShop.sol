@@ -63,7 +63,7 @@ contract CarbonShop is IERC721Receiver {
     }
 
     function findVcuForAmount(uint256 amount) internal view returns (bool, uint256, uint256) {
-        for (uint256 i = inventory.length - 1; i <= 0; i--) {
+        for (uint256 i = 0; i < inventory.length; i++) {
             uint256 tokenId = inventory[i];
             if (isForSale[tokenId]) {
                 uint256 ethValueOfVcu = vcu.getQuantityIssued(tokenId) * exchangeRate;
