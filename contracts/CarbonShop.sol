@@ -3,8 +3,9 @@ pragma solidity ^0.5.7;
 import "./VoluntaryCarbonUnit.sol";
 import "./third-party/strings.sol";
 import "./VoluntaryCarbonUnitData.sol";
+import "openzeppelin-solidity/contracts/utils/ReentrancyGuard.sol";
 
-contract CarbonShop {
+contract CarbonShop is ReentrancyGuard {
 
     VoluntaryCarbonUnit private vcu;
     uint256 public exchangeRate;
@@ -18,9 +19,8 @@ contract CarbonShop {
     }
 
     // Buy using a wallet
-    // TODO Some sort of re-entrancy guard
     // solhint-disable-next-line no-complex-fallback
-    function() external payable {
+    function() external payable nonReentrant {
         // Find a suitable VCU
         (bool canSellSomething, uint256 tokenIdOfThing, uint256 consideration) = findVcuForAmount(msg.value);
 
