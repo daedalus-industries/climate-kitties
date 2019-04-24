@@ -1,13 +1,10 @@
 pragma solidity ^0.5.7;
 
-import "openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol";
 import "./VoluntaryCarbonUnit.sol";
 import "./third-party/strings.sol";
 import "./VoluntaryCarbonUnitData.sol";
 
-contract CarbonShop is IERC721Receiver {
-
-    bytes4 private constant ERC721_RECEIVED = 0x150b7a02;
+contract CarbonShop {
 
     VoluntaryCarbonUnit private vcu;
     uint256 public exchangeRate;
@@ -25,36 +22,31 @@ contract CarbonShop is IERC721Receiver {
     // solhint-disable-next-line no-complex-fallback
     function() external payable {
         // Find a suitable VCU
-        (bool canSellSomething, uint256 tokenIdOfThing, uint256 change) = findVcuForAmount(msg.value);
+        (bool canSellSomething, uint256 tokenIdOfThing, uint256 consideration) = findVcuForAmount(msg.value);
 
         // Transfer it
         if (canSellSomething) {
-            vcu.safeTransferFrom(vcu.ownerOf(tokenIdOfThing), msg.sender, tokenIdOfThing);
+            address sellerAddress = vcu.ownerOf(tokenIdOfThing);
+            vcu.safeTransferFrom(sellerAddress, msg.sender, tokenIdOfThing);
             isForSale[tokenIdOfThing] = false;
+
+            // Re-imburse the owner
+            // Note: Probably better to use W-ETH for everything and not handle raw ether...
+            address payable sellerAddressPayable = address(uint160(sellerAddress));
+            sellerAddressPayable.transfer(consideration);
         }
 
         // Return the change
+        uint256 change = msg.value - consideration;
         if (0 != change) {
             msg.sender.transfer(change);
         }
     }
 
-    // solhint-disable-next-line no-unused-vars 
-    function onERC721Received(address operator, address from, uint256 tokenId, bytes memory data)
-    public returns (bytes4)
-    {
-        require(address(vcu) == address(vcu), "Only carbon for sale here.");
-        _listVcu(tokenId);
-        return ERC721_RECEIVED;
-    }
-
     function listVcu(uint tokenId) public {
         require(msg.sender == vcu.ownerOf(tokenId), "Need ownership to list.");
         require(address(this) == vcu.getApproved(tokenId), "Need to grant approval before listing.");
-        _listVcu(tokenId);
-    }
-
-    function _listVcu(uint256 tokenId) internal {
+ 
         // Record that it is for sale
         isForSale[tokenId] = true;
 
@@ -68,11 +60,11 @@ contract CarbonShop is IERC721Receiver {
             if (isForSale[tokenId]) {
                 uint256 ethValueOfVcu = vcu.getQuantityIssued(tokenId) * exchangeRate;
                 if (ethValueOfVcu <= amount) {
-                    return (true, tokenId, amount - ethValueOfVcu);
+                    return (true, tokenId, ethValueOfVcu);
                 }
             }
         }
 
-        return (false, 0, amount);
+        return (false, 0, 0);
     }
 }
