@@ -1,16 +1,19 @@
+import React from "react";
 import MyComponent from './MyComponent';
-import { drizzleConnect } from "drizzle-react";
+import { DrizzleContext } from "drizzle-react";
 
-const mapStateToProps = state => ({
-    accounts: state.accounts,
-    VoluntaryCarbonUnit: state.contracts.VoluntaryCarbonUnit,
-    CarbonShop: state.contracts.CarbonShop,
-    drizzleStatus: state.drizzleStatus,
-  });
+export default () => (
+  <DrizzleContext.Consumer>
+    {drizzleContext => {
+      const { drizzle, drizzleState, initialized } = drizzleContext;
 
-const MyContainer = drizzleConnect(
-  MyComponent,
-  mapStateToProps
-);
+      if (!initialized) {
+        return "Loading...";
+      }
 
-export default MyContainer;
+      return (
+        <MyComponent drizzle={drizzle} drizzleState={drizzleState} />
+      );
+    }}
+  </DrizzleContext.Consumer>
+)

@@ -1,12 +1,7 @@
 import React from "react";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {
-  AccountData,
-  ContractData,
-  ContractForm,
-} from "drizzle-react-components";
-import PropTypes from "prop-types";
+import { newContextComponents } from "drizzle-react-components";
 
 import logo from "./kitten.jpeg";
 
@@ -21,12 +16,14 @@ class MyComponent extends React.Component {
   componentDidMount () {
     const qr = new EthereumQRPlugin();
     qr.toCanvas(
-      {to: this.context.drizzle.contracts.CarbonShop.address},
+      {to: this.props.drizzle.drizzleState.contracts.CarbonShop.address},
       {selector: '#shop-qr-code',}
     );
   }
 
   render() {
+    const { AccountData, ContractData, ContractForm } = newContextComponents;
+    const { drizzle, drizzleState } = this.props;
     return (
       <div className="App">
         <ToastContainer />
@@ -59,7 +56,7 @@ class MyComponent extends React.Component {
             <ContractData
               contract="VoluntaryCarbonUnit"
               method="balanceOf"
-              methodArgs={[this.props.accounts[0]]}
+              methodArgs={drizzleState.accounts[0]}
             />
           </p>
           <h3>Mint a non-negotiable VCU</h3>
@@ -107,17 +104,12 @@ class MyComponent extends React.Component {
             ]}
           />
           <h3>VCU Shop</h3>
-          <p>Feeling guilty. Carbon footprint getting you down. Send ether to address below for instant absolution!</p>
-          <p>{this.context.drizzle.contracts.CarbonShop.address}</p>
+          <p>Feeling guilty? Carbon footprint getting you down. Send ether to address below for instant absolution!</p>
           <div id="shop-qr-code" />
         </div>
       </div>
     );
   };
-};
-
-MyComponent.contextTypes = {
-  drizzle: PropTypes.object
 };
 
 export default MyComponent;

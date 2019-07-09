@@ -1,21 +1,34 @@
 import React, { Component } from "react";
-import { DrizzleProvider } from "drizzle-react";
-import { LoadingContainer } from "drizzle-react-components";
-
+import { Drizzle, generateStore } from "drizzle";
+import { DrizzleContext } from "drizzle-react";
 import "./App.css";
-
-import options from "./drizzleOptions";
 import MyContainer from "./MyContainer";
-import store from './middleware';
+import VoluntaryCarbonUnit from "./contracts/VoluntaryCarbonUnit.json";
+import CarbonShop from "./contracts/CarbonShop.json";
+
+const options = {
+  web3: {
+    block: false,
+  },
+  contracts: [VoluntaryCarbonUnit, CarbonShop],
+  events: {
+    VoluntaryCarbonUnit: ["Retirement", "Transfer", "Approval", "ApprovalForAll"]
+  },
+  polls: {
+    accounts: 1500,
+  },
+};
+
+
+const drizzleStore = generateStore(options);
+const drizzle = new Drizzle(options, drizzleStore);
 
 class App extends Component {
   render() {
     return (
-      <DrizzleProvider store={store} options={options}>
-        <LoadingContainer>
+      <DrizzleContext.Provider drizzle={drizzle}>
           <MyContainer />
-        </LoadingContainer>
-      </DrizzleProvider>
+      </DrizzleContext.Provider>
     );
   }
 }
